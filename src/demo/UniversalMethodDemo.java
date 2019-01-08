@@ -17,11 +17,11 @@ public class UniversalMethodDemo {
 		
 
 	}
-	private static Comparable max2(Comparable ca, Comparable cb) {
+	public static Comparable max2(Comparable ca, Comparable cb) {
 		// TODO Auto-generated method stub
 		return ca;
 	}
-	private static double max2(double d, double e) {
+	public static double max2(double d, double e) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

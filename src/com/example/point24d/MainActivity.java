@@ -15,7 +15,6 @@ public class MainActivity extends Activity {
         Button btnExit=(Button) super.findViewById(R.id.btnExit);
         btnExit.setOnClickListener(new View.OnClickListener() {
 			
-			@Override
 			public void onClick(View arg0) {
 				System.exit(0);
 				
