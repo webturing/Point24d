@@ -32,17 +32,17 @@ public class Evaluator {
 				if(stack.isEmpty())return -1;
 				double a = stack.pop();
 				double c = 0;
-				switch (s) {
-				case "+":
+				switch (s.charAt(0)) {
+				case '+':
 					c = a + b;
 					break;
-				case "-":
+				case '-':
 					c = a - b;
 					break;
-				case "*":
+				case '*':
 					c = a * b;
 					break;
-				case "/":
+				case '/':
 					if (b != 0)
 						c = a / b;
 					else
@@ -66,7 +66,7 @@ public class Evaluator {
 
 	public static boolean isNumber(String s) {		
 		try{
-			double x=Double.parseDouble(s);
+			Double.parseDouble(s);
 			return true;
 		}catch(NumberFormatException e){
 			return false;
