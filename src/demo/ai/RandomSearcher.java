@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class RandomSearcher {
 	final static String[] OPS = "+ - * /".split("\\s+");
-	private static final int MAX_CNT = 1000;
+	private static final int MAX_CNT = 10000;
 	private static Random random = new Random();
 
 	public static void main(String[] args) {

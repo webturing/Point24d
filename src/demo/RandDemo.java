@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 public class RandDemo {
+	/**
+	 * javaËæ»úÊı
+	 */
 	static Random rand = new Random();
 
 	public static void main(String[] args) {
