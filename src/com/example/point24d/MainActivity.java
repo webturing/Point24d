@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import demo.ai.Point24;
 import demo.ai.RandomSearcher;
 
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 		});
 		DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this,
 				"test_db", null, 1);
+		Log.i("DB", "数据库创建成功");
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		btnSolve.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -49,31 +51,39 @@ public class MainActivity extends Activity {
 				int d = Integer.valueOf(editTextD.getText().toString());
 				int[] arr = new int[] { a, b, c, d };
 				Arrays.sort(arr);
-				String key = Arrays.toString(arr);
+				String keys = Arrays.toString(arr);
 				// TO 先查询数据库的结果 如果存在直接读取结果
 				Log.i("DB", "start querying1!");
-				Cursor cursor = db.query("tb", new String[] { "key" }, key,
-						null, null, null, null);
+				Cursor cursor = db.query("tb2", new String[] { "numbers",
+						"solution" }, null, null, null, null, null);
 				boolean find = false;
 				Log.i("DB", "start querying2!");
 				while (cursor.moveToNext()) {
-					String name = cursor.getString(cursor
-							.getColumnIndex("answer"));
-					textViewResult.setText(name);
-					Log.i("DB", "query succesfully!");
-					find = true;
-					break;
+					String numbers = cursor.getString(cursor
+							.getColumnIndex("numbers"));
+					if (numbers.equals(keys)) {
+						String solution = cursor.getString(cursor
+								.getColumnIndex("solution"));
+						textViewResult.setText(solution);
+						Toast.makeText(MainActivity.this,"读取本地数据库记录",Toast.LENGTH_SHORT).show();
+						Log.i("DB", "query succesfully!");
+						find = true;
+						break;
+					}
 				}
 				// 否则计算后存入数据库
 				if (!find) {
 					String answer = Point24.solve(arr);
-					textViewResult.setText(answer);
+					textViewResult.setText(answer);			
 					ContentValues values = new ContentValues();
 					Log.i("DB", "start inserting!");
-					values.put("key", answer);
+					values.put("numbers", keys);
+					values.put("solution", answer);
+
 					// 数据库执行插入命令
-					db.insert("key", null, values);
+					db.insert("tb2", null, values);
 					Log.i("DB", "insert succesfully!");
+					Toast.makeText(MainActivity.this,"插入数据库成功",Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
