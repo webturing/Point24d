@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class RegexDemo {
 
 	/**
-	 * 正则表达式的应用
 	 * @param args
 	 */
 	public static void main(String[] args) {

@@ -16,7 +16,7 @@ public class ExceptionDemo {
 		try{
 			a[3] = 6;
 		}catch(ArrayIndexOutOfBoundsException e){
-			int [] b=new int[a.length*2];//倍增算法是实现动态容量的关键
+			int [] b=new int[a.length*2];//倍增
 			//for(int i=0;i<a.length;i++)b[i]=a[i];//ugly but right
 			System.arraycopy(a, 0, b, 0, a.length);//elegant and efficient		
 			
