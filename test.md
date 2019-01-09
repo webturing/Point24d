@@ -1,8 +1,8 @@
 
 
-# 北大青鸟课工场《Android项目开发实训》
+# 安徽建筑大学《Android项目开发实训》
 
-<middle>授课教师:赵靖老师260768400@qq.com</middle>
+<middle>授课教师:北大青鸟课工场 赵靖老师260768400@qq.com</middle>
 
 # 第一讲：环境搭建和项目准备：
 
@@ -34,7 +34,7 @@
 -  GIT命令快速入门：
   -  在github创建一个项目 <https://github.com/webturing/Point24c.git>
   - GIT Shell/bash:
-```
+```bash
   克隆仓库Git clone
   增加待提交的文件Git add
   提交修改到本地Git commit
@@ -52,10 +52,7 @@
 
 - 计算结果缓存：数据库存储
 
-- 项目网址：
-
-  - 计算机1班:  https://github.com/webturing/Point24c
-  - 计算机2班:  https://github.com/webturing/Point24d
+- 项目网址：https://github.com/webturing/Point24d
 
   
 
@@ -86,30 +83,29 @@
 
   ```java
   if (isOperator(s)) {
-  				if(stack.isEmpty())return -1;
-  				double b = stack.pop();
-  				if(stack.isEmpty())return -1;
-  				double a = stack.pop();
-  				double c = 0;
-  				switch (s) {
-  				case "+":
-  					c = a + b;
-  					break;
-  				case "-":
-  					c = a - b;
-  					break;
-  				case "*":
-  					c = a * b;
-  					break;
-  				case "/":
-  					if (b != 0)
-  						c = a / b;
-  					else
-  						c = Double.MAX_VALUE;
-  					break;
-  
-  				}
-  				stack.push(c);
+      if(stack.isEmpty())return -1;
+      double b = stack.pop();
+      if(stack.isEmpty())return -1;
+      double a = stack.pop();
+      double c = 0;
+      switch (s) {
+          case "+":
+              c = a + b;
+              break;
+          case "-":
+              c = a - b;
+              break;
+          case "*":
+              c = a * b;
+              break;
+          case "/":
+              if (b != 0)
+                  c = a / b;
+              else
+                  c = Double.MAX_VALUE;
+              break;
+      }
+      stack.push(c);
   }
   ```
 
@@ -267,7 +263,6 @@ public static BinaryTree createTree(String[] exp) {
     }
     return stack.peek();
 }
-
 ```
 
 ### 中序遍历（括号和移植)
@@ -313,7 +308,6 @@ public void setRight(BinaryTree right) {
     this.right = right;
     right.braced = Evaluator.lessOrEqual(root, right.root);
 }
-
 ```
 
 #### 算符判定
@@ -328,3 +322,127 @@ public static boolean less(String a, String b) {
     return Arrays.asList("+* +/ -* -/".split(" ")).contains(a + b);
 }
 ```
+# 第四讲：24游戏的改进III------确定性搜索器和数据库存储技术
+
+## 康拓展开和全排列
+
+###  康拓展开： 全排列 映射为 0~n！
+
+###康拓逆展开:   0~n！映射为 全排列 
+
+```java
+/**
+	 * 逆康拓展开，根据数值直接生成排列
+	 * @param x
+	 * @param m
+	 * @return
+	 */
+	static final int FAC[] = { 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880 };
+	public static int[] codel(int x, int m) {
+		int[] label = new int[m];
+		int[] n = new int[m];
+		int cnt;
+		for (int i = 0; i < m; i++)
+			label[i] = 1;
+		for (int i = 0; i < m; i++) {
+			cnt = x / FAC[m - 1 - i];
+			x = x % FAC[m - 1 - i];
+			for (int j = 0; j < m; j++) {
+				if (label[j] == 0)
+					continue;
+				if (cnt == 0) {
+					label[j] = 0;
+					n[i] = j;
+					break;
+				}
+				cnt--;
+			}
+		}
+		return n;
+	}
+```
+
+
+
+## 改进的后缀式枚举：
+
+### （4个运算数 三个算符XYZ组成的二叉树只有5种）
+
+- { a, b, X, c, Y, d, Z },
+- { a, b, c, X, Y, d, Z },
+- { a, b, X, c, d, Y, Z },
+- { a, b, c, X, d, Y, Z },
+- { a, b, c, d, X, Y, Z }
+
+###算法实现
+```java
+public static List<String> bruteSearch(int[] arr) {
+		 List<String> exp=new ArrayList<String>();
+		for (int cc = 0; cc < Permutation.FAC[4]; cc++) {
+			int[] idx = Permutation.codel(cc, 4);
+			String a = String.valueOf(arr[idx[0]]);
+			String b = String.valueOf(arr[idx[1]]);
+			String c = String.valueOf(arr[idx[2]]);
+			String d = String.valueOf(arr[idx[3]]);
+			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 4; j++)
+					for (int k = 0; k < 4; k++) {
+						String X = Point24.OPS[i];
+						String Y = Point24.OPS[j];
+						String Z = Point24.OPS[k];
+						for (String[] ee : new String[][] {
+								{ a, b, X, c, Y, d, Z },
+								{ a, b, c, X, Y, d, Z },
+								{ a, b, X, c, d, Y, Z },
+								{ a, b, c, X, d, Y, Z },
+								{ a, b, c, d, X, Y, Z }, }) {
+							if (Evaluator.eval(ee) == Point24.GOAL) {
+								exp.addAll(Arrays.asList(ee));
+								return exp;
+							}
+						}
+					}
+		}
+		exp.clear();
+		return exp;
+	}
+```
+
+## 记忆化搜索和数据库技术:
+
+### 动态规划入门：记忆化搜索
+
+### sqlite 技术
+
+#### 创建数据库CREATE
+
+#### 数据库的增删改查
+
+
+
+# 第五讲：24游戏的持续改进
+
+## 存储所有结果
+
+## 排序结果散列
+
+## 网络数据库和本地数据库的同步
+
+### 对战模式？
+
+
+
+
+
+
+
+# 总结：本案例所设计的知识要点：
+
+1. Java 核心编程技术
+2. 数据结构（二叉树、栈）
+3. 算法和编译原理： 表达式计算、算符优先关系计算
+4. 数据库技术
+5. Android开发基础  
+6. 软件工程GIT/GITHUB和文档Markdown
+
+感谢所有听课的小伙伴，预祝课题答辩顺利，早日成为技术达人谢谢！
