@@ -1,5 +1,7 @@
 package demo.ai;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class BinaryTree {
@@ -15,12 +17,23 @@ public class BinaryTree {
 		BinaryTree tree2=BinaryTree.createTree(exp.split("\\s+"));
 		tree2.midVisit();
 	}	
+/**
+ * 根据后缀式还原二叉树
+ * @param exp
+ * @return
+ */
+public static BinaryTree createTree(String[] exp) {
+	return createTree(Arrays.asList(exp));
+	
+	
+}
+
 	/**
 	 * 根据后缀式还原二叉树
 	 * @param exp
 	 * @return
 	 */
-	public static BinaryTree createTree(String[] exp) {
+	public static BinaryTree createTree(List<String> exp) {
 		Stack<BinaryTree> stack=new Stack<BinaryTree>();
 		for(String s:exp){
 			if(Evaluator.isNumber(s)){
@@ -39,7 +52,15 @@ public class BinaryTree {
 		return stack.peek();
 	}
 
-
+	public void midVisit(StringBuffer buffer) {
+		buffer.append("(");
+		if (left != null)
+			left.midVisit(buffer);
+		buffer.append(root);
+		if (right != null)
+			right.midVisit(buffer);
+		buffer.append(")");
+	}
 
 
 	public void midVisit() {

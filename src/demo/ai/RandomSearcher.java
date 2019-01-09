@@ -36,7 +36,7 @@ public class RandomSearcher {
 			System.err.println(exp);
 		}
 
-		return new ArrayList<>();
+		return new ArrayList<String>();
 	}
 
 }
