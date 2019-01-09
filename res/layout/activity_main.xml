@@ -15,10 +15,10 @@
         <TextView
             android:id="@+id/textView1"
             android:layout_width="289dp"
+            tools:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="棋牌类益智游戏，要求四个数字运算结果等于二十四，一起来玩玩吧!"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:layout_width="match_parent" />
+            android:gravity="center_horizontal"
+            android:text="棋牌类益智游戏，要求四个数字运算结果等于二十四，一起来玩玩吧!" />
 
         <EditText
             android:id="@+id/editTextA"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:text="1"
-            android:textAlignment="center" />
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/editTextB"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:text="5"
-            android:textAlignment="center" />
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/editTextC"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:text="5"
-            android:textAlignment="center" />
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/editTextD"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:text="5"
-            android:textAlignment="center">
+           android:gravity="center_horizontal">
 
 
         </EditText>
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="waiting result"
-            android:textAlignment="center"
+           android:gravity="center_horizontal"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
