@@ -11,7 +11,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         //创建数据库sql语句 并 执行
-        String sql = "create table tb(numbers varchar(20),answer varchar(50))";
+        String sql = "create table tb(key varchar(20),answer varchar(50))";
         db.execSQL(sql);
     }
     @Override
