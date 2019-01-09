@@ -6,77 +6,71 @@ import java.util.Stack;
 
 public class BinaryTree {
 	public static void main(String[] args) {
-		BinaryTree left=new BinaryTree("1");
-		BinaryTree right=new BinaryTree("5");
-		BinaryTree tree=new BinaryTree("/");
-		tree.setLeft(left);
-		tree.setRight(right);
+		BinaryTree tree = BinaryTree.createTree("5 1 5 / - 5 *".split(" "));
 		tree.midVisit();
-		String exp="5 1 5 / - 5 *";
 		System.out.println();
-		BinaryTree tree2=BinaryTree.createTree(exp.split("\\s+"));
-		tree2.midVisit();
-	}	
-/**
- * 根据后缀式还原二叉树
- * @param exp
- * @return
- */
-public static BinaryTree createTree(String[] exp) {
-	return createTree(Arrays.asList(exp));
-	
-	
-}
+		StringBuffer buffer = new StringBuffer();
+		tree.midVisit(buffer);
+		System.out.println(buffer);
+	}
 
-	/**
-	 * 根据后缀式还原二叉树
-	 * @param exp
-	 * @return
-	 */
+	public static BinaryTree createTree(String[] exp) {
+		return createTree(Arrays.asList(exp));
+	}
+
 	public static BinaryTree createTree(List<String> exp) {
-		Stack<BinaryTree> stack=new Stack<BinaryTree>();
-		for(String s:exp){
-			if(Evaluator.isNumber(s)){
-				BinaryTree t=new BinaryTree(s);
-				stack.push(t);				
-			}else if (Evaluator.isOperator(s)){
-				BinaryTree t=new BinaryTree(s);// operator
-				BinaryTree right=stack.pop();
-				BinaryTree left=stack.pop();
-				t.setLeft(left);
-				t.setRight(right);
-				stack.push(t);
-				
+		Stack<BinaryTree> stack = new Stack<BinaryTree>();
+		for (String s : exp) {
+			BinaryTree b = new BinaryTree(s);
+			if (Evaluator.isNumber(s)) {
+				stack.push(b);
+			} else if (Evaluator.isOperator(s)) {
+				BinaryTree right = stack.pop();
+				BinaryTree left = stack.pop();
+				b.setLeft(left);
+				b.setRight(right);
+				stack.push(b);
 			}
 		}
 		return stack.peek();
 	}
 
+	void midVisit() {
+		System.out.print("(");
+		if (left != null)
+			left.midVisit();
+		System.out.print(root);
+		if (right != null)
+			right.midVisit();
+		System.out.print(")");
+	}
+
+	boolean isEmpty() {
+		return left == null && right == null;
+	}
+
 	public void midVisit(StringBuffer buffer) {
-		buffer.append("(");
+		if (braced)
+			buffer.append("(");
 		if (left != null)
 			left.midVisit(buffer);
 		buffer.append(root);
 		if (right != null)
 			right.midVisit(buffer);
-		buffer.append(")");
+		if (braced)
+			buffer.append(")");
 	}
 
-
-	public void midVisit() {
-		System.out.print("(");
-		if(left!=null)left.midVisit();
-		System.out.print(root);
-		if(right!=null)right.midVisit();	
-		System.out.print(")");
-	}
 	public BinaryTree(String root) {
-		this(root,null,null);//构造方法的重载
+		this(root, null, null);
 	}
+
 	public BinaryTree(String root, BinaryTree left, BinaryTree right) {
 		this.root = root;
-		this.left = left;
-		this.right = right;
+		if (left != null)
+			this.setLeft(left);
+		if (right != null)
+			this.setRight(right);
 	}
 
 	public String getRoot() {
@@ -90,20 +84,23 @@ public static BinaryTree createTree(String[] exp) {
 	public BinaryTree getLeft() {
 		return left;
 	}
+	public BinaryTree getRight() {
+			return right;
+		}
 
 	public void setLeft(BinaryTree left) {
 		this.left = left;
+		left.braced = Evaluator.less(left.root, root);
 	}
 
-	public BinaryTree getRight() {
-		return right;
-	}
 	
 	public void setRight(BinaryTree right) {
 		this.right = right;
+		right.braced = Evaluator.lessOrEqual(root, right.root);
 	}
-	
+
 	String root;
 	BinaryTree left;
 	BinaryTree right;
+	boolean braced = false;
 }

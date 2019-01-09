@@ -9,20 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import demo.ai.BinaryTree;
+import demo.ai.Point24;
 import demo.ai.RandomSearcher;
 
 public class MainActivity extends Activity {
-	public static String solve24(int[] a) {
-		List<String> exp = RandomSearcher.search(a);
-		if (exp.isEmpty()) {
-			return ("No solutions");
-		} else {
-			BinaryTree bt = BinaryTree.createTree(exp);
-			StringBuffer buffer = new StringBuffer();
-			bt.midVisit(buffer);
-			return (buffer.toString());
-		}
-	}
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +37,14 @@ public class MainActivity extends Activity {
 			}
 		});
 		btnSolve.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				int a = Integer.valueOf(editTextA.getText().toString());
 				int b = Integer.valueOf(editTextB.getText().toString());
 				int c = Integer.valueOf(editTextC.getText().toString());
 				int d = Integer.valueOf(editTextD.getText().toString());
-				textViewResult.setText(solve24(new int[]{a,b,c,d}));
-
+				textViewResult.setText(Point24.solve(new int[] { a, b, c, d }));
 			}
 		});
 	}
-
 }
