@@ -84,16 +84,16 @@ public class BinaryTree {
 	public BinaryTree getLeft() {
 		return left;
 	}
+
 	public BinaryTree getRight() {
-			return right;
-		}
+		return right;
+	}
 
 	public void setLeft(BinaryTree left) {
 		this.left = left;
 		left.braced = Evaluator.less(left.root, root);
 	}
 
-	
 	public void setRight(BinaryTree right) {
 		this.right = right;
 		right.braced = Evaluator.lessOrEqual(root, right.root);

@@ -70,7 +70,7 @@ public class Evaluator {
 
 	public static boolean isNumber(String s) {// isXXXX hasXXX
 		try {
-			 Double.parseDouble(s);
+			Double.parseDouble(s);
 			return true;
 		} catch (Exception e) {
 			return false;

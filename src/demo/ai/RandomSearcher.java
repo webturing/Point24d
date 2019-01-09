@@ -1,16 +1,20 @@
 package demo.ai;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 public class RandomSearcher {
 	static Random random = new Random();
+
 	public static void main(String[] args) {
-        int a[] = {5, 5, 5, 1};
-        System.out.println(randSearch(a));
-    }
+		int a[] = { 5, 5, 5, 1 };
+		System.out.println(randSearch(a));
+	}
+
 	public static List<String> randSearch(int[] a) {
-		List<String> exp=new ArrayList<String>();
+		List<String> exp = new ArrayList<String>();
 		int cnt = 0;
 		for (int i = 0; i < 4; i++)
 			exp.add(Integer.toString(a[i]));

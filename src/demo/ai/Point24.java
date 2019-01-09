@@ -23,14 +23,17 @@ public class Point24 {
 	}
 
 	public static String solve(int[] a) {
-		List<String> exp =BruteSearcher.bruteSearch(a);
-	//	List<String> exp= RandomSearcher.randSearch(a);
-		if (exp.isEmpty()) {return "no solutions!";};
-			StringBuffer buffer = new StringBuffer();
-			BinaryTree binaryTree = BinaryTree.createTree(exp);
-			binaryTree.midVisit(buffer);
-			return buffer.toString();
-		
+		List<String> exp = BruteSearcher.bruteSearch(a);
+		// List<String> exp= RandomSearcher.randSearch(a);
+		if (exp.isEmpty()) {
+			return "no solutions!";
+		}
+		;
+		StringBuffer buffer = new StringBuffer();
+		BinaryTree binaryTree = BinaryTree.createTree(exp);
+		binaryTree.midVisit(buffer);
+		return buffer.toString();
+
 	}
-	
+
 }

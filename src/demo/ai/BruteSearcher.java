@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BruteSearcher {
 	public static List<String> bruteSearch(int[] arr) {
-		 List<String> exp=new ArrayList<String>();
+		List<String> exp = new ArrayList<String>();
 		for (int cc = 0; cc < Permutation.FAC[4]; cc++) {
 			int[] idx = Permutation.codel(cc, 4);
 			String a = String.valueOf(arr[idx[0]]);
@@ -37,8 +37,8 @@ public class BruteSearcher {
 	}
 
 	public static void main(String[] args) {
-	
-			System.out.println(bruteSearch(new int[] { 5, 5, 5, 1 }));
-		
+
+		System.out.println(bruteSearch(new int[] { 5, 5, 5, 1 }));
+
 	}
 }
