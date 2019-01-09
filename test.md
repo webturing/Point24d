@@ -272,15 +272,59 @@ public static BinaryTree createTree(String[] exp) {
 
 ### 中序遍历（括号和移植)
 
-#### 版本1 ：冗余括号较多
+#### 版本1 ：耦合了System.out, 冗余括号较多
 
 ```java
 public void midVisit() {
-		System.out.print("(");
-		if(left!=null)left.midVisit();
-		System.out.print(root);
-		if(right!=null)right.midVisit();	
-		System.out.print(")");
+    System.out.print("(");
+    if(left!=null)left.midVisit();
+    System.out.print(root);
+    if(right!=null)right.midVisit();	
+    System.out.print(")");
 }
 ```
 
+#### 版本2:  解决移植性
+
+```java
+public void midVisit(StringBuffer buffer) {
+    if (braced)
+        buffer.append("(");
+    if (left != null)
+        left.midVisit(buffer);
+    buffer.append(root);
+    if (right != null)
+        right.midVisit(buffer);
+    if (braced)
+        buffer.append(")");
+}
+```
+
+### 版本3：括号优化技术
+
+#### 括号优化
+
+```java
+public void setLeft(BinaryTree left) {
+    this.left = left;
+    left.braced = Evaluator.less(left.root, root);
+}
+public void setRight(BinaryTree right) {
+    this.right = right;
+    right.braced = Evaluator.lessOrEqual(root, right.root);
+}
+
+```
+
+#### 算符判定
+
+```java
+public static boolean lessOrEqual(String a, String b) {
+    return Arrays.asList("-- -+ *+ *- */ /+ /- /* //".split(" ")).contains(
+        a + b);
+}
+
+public static boolean less(String a, String b) {
+    return Arrays.asList("+* +/ -* -/".split(" ")).contains(a + b);
+}
+```
