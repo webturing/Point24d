@@ -205,3 +205,82 @@
 
 - 重载所有基础类型
 - 重载对象类型Object或者对应的接口
+
+# 第三讲：24游戏的设计2-后缀转中缀（二叉树）
+## 二叉树及性质
+- 递归定义
+
+- java实现链式结构非常方便
+ ## 二叉树的实现
+
+  ```java
+public void midVisit() {
+		System.out.print("(");
+		if(left!=null)left.midVisit();
+		System.out.print(root);
+		if(right!=null)right.midVisit();	
+		System.out.print(")");
+	}
+public BinaryTree(String root) {    this(root,null,null);//构造方法的重载}
+public BinaryTree(String root, BinaryTree left, BinaryTree right) {
+    this.root = root;
+    this.left = left;
+    this.right = right;
+}
+public String getRoot() {    return root;}
+public void setRoot(String root) {    this.root = root;}
+public BinaryTree getLeft() {    return left;}
+public void setLeft(BinaryTree left) {    this.left = left;}
+public BinaryTree getRight() {  return right;}
+public void setRight(BinaryTree right) {    this.right = right;}
+
+String root;
+BinaryTree left;
+BinaryTree right;
+  ```
+
+## 根据后缀转中缀核心算法：
+
+### 建立二叉树算法
+
+```java
+/**
+	 * 根据后缀式还原二叉树
+	 * @param 后缀表达式exp
+	 * @return 一个二叉树tree 其后序遍历为exp
+	 */
+public static BinaryTree createTree(String[] exp) {
+    Stack<BinaryTree> stack=new Stack<BinaryTree>();
+    for(String s:exp){
+        if(Evaluator.isNumber(s)){
+            BinaryTree t=new BinaryTree(s);
+            stack.push(t);				
+        }else if (Evaluator.isOperator(s)){
+            BinaryTree t=new BinaryTree(s);// operator
+            BinaryTree right=stack.pop();
+            BinaryTree left=stack.pop();
+            t.setLeft(left);
+            t.setRight(right);
+            stack.push(t);
+
+        }
+    }
+    return stack.peek();
+}
+
+```
+
+### 中序遍历（括号和移植)
+
+#### 版本1 ：冗余括号较多
+
+```java
+public void midVisit() {
+		System.out.print("(");
+		if(left!=null)left.midVisit();
+		System.out.print(root);
+		if(right!=null)right.midVisit();	
+		System.out.print(")");
+}
+```
+
