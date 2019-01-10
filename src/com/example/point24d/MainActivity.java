@@ -38,8 +38,7 @@ public class MainActivity extends Activity {
 				System.exit(0);
 			}
 		});
-		DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this,
-				"test_db", null, 1);
+		DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this,"test_db", null, 1);
 		Log.i("DB", "数据库创建成功");
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		btnSolve.setOnClickListener(new View.OnClickListener() {
@@ -52,24 +51,22 @@ public class MainActivity extends Activity {
 				int[] arr = new int[] { a, b, c, d };
 				Arrays.sort(arr);
 				String keys = Arrays.toString(arr);
-				// TO 先查询数据库的结果 如果存在直接读取结果
-				Log.i("DB", "start querying1!");
+				//先查询数据库的结果 如果存在直接读取结果
+				//select solution from tb2 where numbers=keys;
 				Cursor cursor = db.query("tb2", new String[] { "solution" },
 						"numbers=?", new String[] { keys }, null, null, null);
 				boolean find = false;
-				Log.i("DB", "start querying2!");
 				while (cursor.moveToNext()) {
 					String solution = cursor.getString(cursor
 							.getColumnIndex("solution"));
 					textViewResult.setText(solution);
 					Toast.makeText(MainActivity.this, "读取本地数据库记录",
 							Toast.LENGTH_SHORT).show();
-					Log.i("DB", "query succesfully!");
 					find = true;
 					break;
 				}
 				// 否则计算后存入数据库
-				if (!find) {
+				if (!find) {//insert into tb2 values(numbers,solution)
 					String answer = Point24.solve(arr);
 					textViewResult.setText(answer);
 					ContentValues values = new ContentValues();
@@ -83,6 +80,7 @@ public class MainActivity extends Activity {
 					Toast.makeText(MainActivity.this, "插入数据库成功",
 							Toast.LENGTH_SHORT).show();
 				}
+				
 			}
 		});
 		Button btnRandom = (Button) super.findViewById(R.id.btnRandom);
